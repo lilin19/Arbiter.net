@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="KenosisModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Msg">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="PoolId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="KenosisModel.UserMsg" FromRole="Msg" ToRole="User" />
+    <Property Name="UserId" Type="String" Nullable="false" />
+    <NavigationProperty Name="Pool" Relationship="KenosisModel.MsgPool" FromRole="Msg" ToRole="Pool" />
+  </EntityType>
+  <EntityType Name="Pool">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="KenosisModel.UserPool" FromRole="Pool" ToRole="User" />
+    <NavigationProperty Name="Msgs" Relationship="KenosisModel.MsgPool" FromRole="Pool" ToRole="Msg" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Pools" Relationship="KenosisModel.UserPool" FromRole="User" ToRole="Pool" />
+    <NavigationProperty Name="Msgs" Relationship="KenosisModel.UserMsg" FromRole="User" ToRole="Msg" />
+  </EntityType>
+  <EntityContainer Name="KenosisEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Msgs" EntityType="Self.Msg" />
+    <EntitySet Name="Pools" EntityType="Self.Pool" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <AssociationSet Name="UserPool" Association="KenosisModel.UserPool">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Pool" EntitySet="Pools" />
+    </AssociationSet>
+    <AssociationSet Name="UserMsg" Association="KenosisModel.UserMsg">
+      <End Role="Msg" EntitySet="Msgs" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="MsgPool" Association="KenosisModel.MsgPool">
+      <End Role="Msg" EntitySet="Msgs" />
+      <End Role="Pool" EntitySet="Pools" />
+    </AssociationSet>
+  </EntityContainer>
+  <Association Name="UserPool">
+    <End Type="KenosisModel.User" Role="User" Multiplicity="1" />
+    <End Type="KenosisModel.Pool" Role="Pool" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Pool">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserMsg">
+    <End Type="KenosisModel.Msg" Role="Msg" Multiplicity="*" />
+    <End Type="KenosisModel.User" Role="User" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Msg">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MsgPool">
+    <End Type="KenosisModel.Msg" Role="Msg" Multiplicity="*" />
+    <End Type="KenosisModel.Pool" Role="Pool" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Pool">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Msg">
+        <PropertyRef Name="PoolId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

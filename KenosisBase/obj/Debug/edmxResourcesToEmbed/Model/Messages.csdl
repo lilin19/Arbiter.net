@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Msg" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="MsgContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Msgs" EntityType="Msg.Msg" />
+    <EntitySet Name="Pools" EntityType="Msg.Pool" />
+    <EntitySet Name="Users" EntityType="Msg.User" />
+    <AssociationSet Name="MsgPool" Association="Msg.MsgPool">
+      <End Role="Msg" EntitySet="Msgs" />
+      <End Role="Pool" EntitySet="Pools" />
+    </AssociationSet>
+    <AssociationSet Name="PoolUser" Association="Msg.PoolUser">
+      <End Role="Pool" EntitySet="Pools" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="UserMsg" Association="Msg.UserMsg">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Msg" EntitySet="Msgs" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Msg">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" annotation:StoreGeneratedPattern="Identity" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Pool" Relationship="Msg.MsgPool" FromRole="Msg" ToRole="Pool" />
+    <Property Name="PoolId" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="User" Relationship="Msg.UserMsg" FromRole="Msg" ToRole="User" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Pool">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" annotation:StoreGeneratedPattern="Identity" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Msgs" Relationship="Msg.MsgPool" FromRole="Pool" ToRole="Msg" />
+    <NavigationProperty Name="User" Relationship="Msg.PoolUser" FromRole="Pool" ToRole="User" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" annotation:StoreGeneratedPattern="Identity" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Pools" Relationship="Msg.PoolUser" FromRole="User" ToRole="Pool" />
+    <NavigationProperty Name="Msgs" Relationship="Msg.UserMsg" FromRole="User" ToRole="Msg" />
+  </EntityType>
+  <Association Name="MsgPool">
+    <End Type="Msg.Msg" Role="Msg" Multiplicity="*" />
+    <End Type="Msg.Pool" Role="Pool" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Pool">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Msg">
+        <PropertyRef Name="PoolId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PoolUser">
+    <End Type="Msg.Pool" Role="Pool" Multiplicity="*" />
+    <End Type="Msg.User" Role="User" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Pool">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserMsg">
+    <End Type="Msg.User" Role="User" Multiplicity="1" />
+    <End Type="Msg.Msg" Role="Msg" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Msg">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

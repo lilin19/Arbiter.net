@@ -1,0 +1,12 @@
+C:\Users\tg\source\repos\Arbiter\KenosisBase\bin\Debug\KenosisBase.dll.config
+C:\Users\tg\source\repos\Arbiter\KenosisBase\bin\Debug\KenosisBase.dll
+C:\Users\tg\source\repos\Arbiter\KenosisBase\bin\Debug\KenosisBase.pdb
+C:\Users\tg\source\repos\Arbiter\KenosisBase\bin\Debug\EntityFramework.dll
+C:\Users\tg\source\repos\Arbiter\KenosisBase\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\tg\source\repos\Arbiter\KenosisBase\bin\Debug\EntityFramework.xml
+C:\Users\tg\source\repos\Arbiter\KenosisBase\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\tg\source\repos\Arbiter\KenosisBase\obj\Debug\KenosisBase.csproj.CoreCompileInputs.cache
+C:\Users\tg\source\repos\Arbiter\KenosisBase\obj\Debug\KenosisBase.csproj.CopyComplete
+C:\Users\tg\source\repos\Arbiter\KenosisBase\obj\Debug\KenosisBase.dll
+C:\Users\tg\source\repos\Arbiter\KenosisBase\obj\Debug\KenosisBase.pdb
+C:\Users\tg\source\repos\Arbiter\KenosisBase\obj\Debug\KenosisBase.csprojAssemblyReference.cache

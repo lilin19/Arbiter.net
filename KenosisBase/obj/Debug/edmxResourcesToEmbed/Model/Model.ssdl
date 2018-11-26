@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="KenosisModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="KenosisModelStoreContainer">
+    <EntitySet Name="Msgs" EntityType="KenosisModel.Store.Msgs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Pools" EntityType="KenosisModel.Store.Pools" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users" EntityType="KenosisModel.Store.Users" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="UserPool" Association="KenosisModel.Store.UserPool">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Pool" EntitySet="Pools" />
+    </AssociationSet>
+    <AssociationSet Name="UserMsg" Association="KenosisModel.Store.UserMsg">
+      <End Role="Msg" EntitySet="Msgs" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="MsgPool" Association="KenosisModel.Store.MsgPool">
+      <End Role="Msg" EntitySet="Msgs" />
+      <End Role="Pool" EntitySet="Pools" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Msgs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Time" Type="datetime" Nullable="false" />
+    <Property Name="PoolId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Pools">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="UserPool">
+    <End Role="User" Type="KenosisModel.Store.Users" Multiplicity="1" />
+    <End Role="Pool" Type="KenosisModel.Store.Pools" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Pool">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserMsg">
+    <End Role="Msg" Type="KenosisModel.Store.Msgs" Multiplicity="*" />
+    <End Role="User" Type="KenosisModel.Store.Users" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Msg">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MsgPool">
+    <End Role="Msg" Type="KenosisModel.Store.Msgs" Multiplicity="*" />
+    <End Role="Pool" Type="KenosisModel.Store.Pools" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Pool">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Msg">
+        <PropertyRef Name="PoolId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
