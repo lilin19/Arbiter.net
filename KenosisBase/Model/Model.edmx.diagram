@@ -8,10 +8,10 @@
         <EntityTypeShape EntityType="KenosisModel.Msg" Width="1.5" PointX="0.875" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="KenosisModel.Pool" Width="1.5" PointX="6.125" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="KenosisModel.User" Width="1.5" PointX="5" PointY="4.75" IsExpanded="true" />
-        <AssociationConnector Association="KenosisModel.UserPool" />
         <AssociationConnector Association="KenosisModel.UserMsg" ManuallyRouted="false" >
         </AssociationConnector>
         <AssociationConnector Association="KenosisModel.MsgPool" />
+        <AssociationConnector Association="KenosisModel.UserPool" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

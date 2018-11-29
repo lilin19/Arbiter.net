@@ -21,5 +21,13 @@ namespace Arbiter.Controllers
 
             return View();
         }
+
+
+        public ActionResult UserAdmin()
+        {
+            ViewBag.Title = "Users";
+
+            return View();
+        }
     }
 }

@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/26/2018 12:32:56
--- Generated from EDMX file: C:\Users\tg\source\repos\Arbiter\KenosisBase\Model\Model.edmx
+-- Date Created: 11/26/2018 17:26:34
+-- Generated from EDMX file: C:\Users\tg\source\repos\Arbiter.net\KenosisBase\Model\Model.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -17,19 +17,28 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_UserPool]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Pools] DROP CONSTRAINT [FK_UserPool];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UserMsg]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Msgs] DROP CONSTRAINT [FK_UserMsg];
+GO
+IF OBJECT_ID(N'[dbo].[FK_MsgPool]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Msgs] DROP CONSTRAINT [FK_MsgPool];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[KenosisModelStoreContainer].[Msgs]', 'U') IS NOT NULL
-    DROP TABLE [KenosisModelStoreContainer].[Msgs];
+IF OBJECT_ID(N'[dbo].[Msgs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Msgs];
 GO
-IF OBJECT_ID(N'[KenosisModelStoreContainer].[Pools]', 'U') IS NOT NULL
-    DROP TABLE [KenosisModelStoreContainer].[Pools];
+IF OBJECT_ID(N'[dbo].[Pools]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Pools];
 GO
-IF OBJECT_ID(N'[KenosisModelStoreContainer].[Users]', 'U') IS NOT NULL
-    DROP TABLE [KenosisModelStoreContainer].[Users];
+IF OBJECT_ID(N'[dbo].[Users]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Users];
 GO
 
 -- --------------------------------------------------
@@ -61,6 +70,13 @@ CREATE TABLE [dbo].[Users] (
 );
 GO
 
+-- Creating table 'UserPool'
+CREATE TABLE [dbo].[UserPool] (
+    [Users_Id] nvarchar(max)  NOT NULL,
+    [Pools_Id] nvarchar(max)  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -83,24 +99,15 @@ ADD CONSTRAINT [PK_Users]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
+-- Creating primary key on [Users_Id], [Pools_Id] in table 'UserPool'
+ALTER TABLE [dbo].[UserPool]
+ADD CONSTRAINT [PK_UserPool]
+    PRIMARY KEY CLUSTERED ([Users_Id], [Pools_Id] ASC);
+GO
+
 -- --------------------------------------------------
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
-
--- Creating foreign key on [UserId] in table 'Pools'
-ALTER TABLE [dbo].[Pools]
-ADD CONSTRAINT [FK_UserPool]
-    FOREIGN KEY ([UserId])
-    REFERENCES [dbo].[Users]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_UserPool'
-CREATE INDEX [IX_FK_UserPool]
-ON [dbo].[Pools]
-    ([UserId]);
-GO
 
 -- Creating foreign key on [UserId] in table 'Msgs'
 ALTER TABLE [dbo].[Msgs]
@@ -130,6 +137,30 @@ GO
 CREATE INDEX [IX_FK_MsgPool]
 ON [dbo].[Msgs]
     ([PoolId]);
+GO
+
+-- Creating foreign key on [Users_Id] in table 'UserPool'
+ALTER TABLE [dbo].[UserPool]
+ADD CONSTRAINT [FK_UserPool_User]
+    FOREIGN KEY ([Users_Id])
+    REFERENCES [dbo].[Users]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Pools_Id] in table 'UserPool'
+ALTER TABLE [dbo].[UserPool]
+ADD CONSTRAINT [FK_UserPool_Pool]
+    FOREIGN KEY ([Pools_Id])
+    REFERENCES [dbo].[Pools]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_UserPool_Pool'
+CREATE INDEX [IX_FK_UserPool_Pool]
+ON [dbo].[UserPool]
+    ([Pools_Id]);
 GO
 
 -- --------------------------------------------------

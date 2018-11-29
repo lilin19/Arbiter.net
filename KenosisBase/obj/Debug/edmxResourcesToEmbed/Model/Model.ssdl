@@ -4,10 +4,7 @@
     <EntitySet Name="Msgs" EntityType="KenosisModel.Store.Msgs" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Pools" EntityType="KenosisModel.Store.Pools" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Users" EntityType="KenosisModel.Store.Users" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="UserPool" Association="KenosisModel.Store.UserPool">
-      <End Role="User" EntitySet="Users" />
-      <End Role="Pool" EntitySet="Pools" />
-    </AssociationSet>
+    <EntitySet Name="UserPool" EntityType="KenosisModel.Store.UserPool" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="UserMsg" Association="KenosisModel.Store.UserMsg">
       <End Role="Msg" EntitySet="Msgs" />
       <End Role="User" EntitySet="Users" />
@@ -15,6 +12,14 @@
     <AssociationSet Name="MsgPool" Association="KenosisModel.Store.MsgPool">
       <End Role="Msg" EntitySet="Msgs" />
       <End Role="Pool" EntitySet="Pools" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserPool_User" Association="KenosisModel.Store.FK_UserPool_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="UserPool" EntitySet="UserPool" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserPool_Pool" Association="KenosisModel.Store.FK_UserPool_Pool">
+      <End Role="Pool" EntitySet="Pools" />
+      <End Role="UserPool" EntitySet="UserPool" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Msgs">
@@ -42,18 +47,14 @@
     <Property Name="Id" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
-  <Association Name="UserPool">
-    <End Role="User" Type="KenosisModel.Store.Users" Multiplicity="1" />
-    <End Role="Pool" Type="KenosisModel.Store.Pools" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="User">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Pool">
-        <PropertyRef Name="UserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
+  <EntityType Name="UserPool">
+    <Key>
+      <PropertyRef Name="Users_Id" />
+      <PropertyRef Name="Pools_Id" />
+    </Key>
+    <Property Name="Users_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Pools_Id" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
   <Association Name="UserMsg">
     <End Role="Msg" Type="KenosisModel.Store.Msgs" Multiplicity="*" />
     <End Role="User" Type="KenosisModel.Store.Users" Multiplicity="1" />
@@ -75,6 +76,30 @@
       </Principal>
       <Dependent Role="Msg">
         <PropertyRef Name="PoolId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserPool_User">
+    <End Role="User" Type="KenosisModel.Store.Users" Multiplicity="1" />
+    <End Role="UserPool" Type="KenosisModel.Store.UserPool" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserPool">
+        <PropertyRef Name="Users_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserPool_Pool">
+    <End Role="UserPool" Type="KenosisModel.Store.UserPool" Multiplicity="*" />
+    <End Role="Pool" Type="KenosisModel.Store.Pools" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Pool">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserPool">
+        <PropertyRef Name="Pools_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
