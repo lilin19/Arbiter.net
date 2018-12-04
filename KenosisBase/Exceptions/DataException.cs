@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KenosisBase
+namespace KenosisBase.Exceptions
 {
-    public class Class1
+    public class DataException:Exception
     {
+        public string Info { get; set; }
+
+
     }
 }

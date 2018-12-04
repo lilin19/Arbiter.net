@@ -5,13 +5,11 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="948b55f9aba94fbab100b0f1596592b3" Name="Diagram1">
-        <EntityTypeShape EntityType="KenosisModel.Msg" Width="1.5" PointX="0.875" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="KenosisModel.Pool" Width="1.5" PointX="6.125" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="KenosisModel.User" Width="1.5" PointX="5" PointY="4.75" IsExpanded="true" />
-        <AssociationConnector Association="KenosisModel.UserMsg" ManuallyRouted="false" >
-        </AssociationConnector>
-        <AssociationConnector Association="KenosisModel.MsgPool" />
-        <AssociationConnector Association="KenosisModel.UserPool" />
+        <EntityTypeShape EntityType="KenosisModel.User" Width="1.5" PointX="1.625" PointY="2.875" />
+        <EntityTypeShape EntityType="KenosisModel.Role" Width="1.5" PointX="1.375" PointY="5.25" />
+        <EntityTypeShape EntityType="KenosisModel.Pool" Width="1.5" PointX="4.875" PointY="2.75" />
+        <EntityTypeShape EntityType="KenosisModel.Msg" Width="1.5" PointX="8.375" PointY="3" />
+        <AssociationConnector Association="KenosisModel.PoolMsg" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -15,7 +15,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav" style="width:auto">
+            <ul class="navbar-nav" style="position:static;width:100%;">
                 <li class="nav-item active">
                     <a class="nav-link" href="/Home/Index">Home<span class="sr-only">(current)</span></a>
                 </li>
@@ -25,14 +25,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="">Others</a>
                 </li>
-                <li class="dropdown text-right" style="margin-left: 100%;" >
+                <li class="dropdown text-right" style=" text-align:right; margin-left:auto;" >
                     <a class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="toggle()" >
                         More
                     </a>
-                    <div id="menu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <div id="menu" class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="right:0; left:auto;margin-top:8px; width:100px">
                         <a class="dropdown-item" href="/Home/UserAdmin">Admin</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                        <a class="dropdown-item" href="#">Another</a>
+                        <a class="dropdown-item" href="#">Something </a>
                     </div>
                 </li>
             </ul>

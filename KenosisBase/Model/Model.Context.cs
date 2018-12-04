@@ -25,8 +25,9 @@ namespace KenosisBase.Model
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Msg> Msgs { get; set; }
-        public virtual DbSet<Pool> Pools { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<Pool> Pools { get; set; }
+        public virtual DbSet<Msg> Msgs { get; set; }
     }
 }

@@ -18,16 +18,14 @@ namespace KenosisBase.Model
         public Pool()
         {
             this.Msgs = new HashSet<Msg>();
-            this.Users = new HashSet<User>();
         }
     
         public string Id { get; set; }
         public string Name { get; set; }
-        public string UserId { get; set; }
+        public string OwnerId { get; set; }
+        public string Users { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Msg> Msgs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User> Users { get; set; }
     }
 }

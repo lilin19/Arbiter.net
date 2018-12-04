@@ -1,68 +1,55 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="KenosisModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-  <EntityType Name="Msg">
+  <EntityContainer Name="KenosisEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Users" EntityType="KenosisModel.User" />
+    <EntitySet Name="Roles" EntityType="KenosisModel.Role" />
+    <EntitySet Name="Pools" EntityType="KenosisModel.Pool" />
+    <EntitySet Name="Msgs" EntityType="KenosisModel.Msg" />
+    <AssociationSet Name="PoolMsg" Association="KenosisModel.PoolMsg">
+      <End Role="Pool" EntitySet="Pools" />
+      <End Role="Msg" EntitySet="Msgs" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="Username" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <Property Name="Name" Type="String" Nullable="false" />
+    <Property Name="Password" Type="String" Nullable="false" />
+    <Property Name="Username" Type="String" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Role">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="PoolId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="User" Relationship="KenosisModel.UserMsg" FromRole="Msg" ToRole="User" />
-    <Property Name="UserId" Type="String" Nullable="false" />
-    <NavigationProperty Name="Pool" Relationship="KenosisModel.MsgPool" FromRole="Msg" ToRole="Pool" />
+    <Property Name="Id" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" />
   </EntityType>
   <EntityType Name="Pool">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="UserId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="Msgs" Relationship="KenosisModel.MsgPool" FromRole="Pool" ToRole="Msg" />
-    <NavigationProperty Name="Users" Relationship="KenosisModel.UserPool" FromRole="Pool" ToRole="User" />
+    <Property Name="Id" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <Property Name="Name" Type="String" Nullable="false" />
+    <Property Name="OwnerId" Type="String" Nullable="false" />
+    <NavigationProperty Name="Msgs" Relationship="KenosisModel.PoolMsg" FromRole="Pool" ToRole="Msg" />
+    <Property Name="Users" Type="String" Nullable="false" />
   </EntityType>
-  <EntityType Name="User">
+  <EntityType Name="Msg">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="Msgs" Relationship="KenosisModel.UserMsg" FromRole="User" ToRole="Msg" />
-    <NavigationProperty Name="Pools" Relationship="KenosisModel.UserPool" FromRole="User" ToRole="Pool" />
+    <Property Name="Id" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <Property Name="Text" Type="String" Nullable="false" />
+    <Property Name="UserId" Type="String" Nullable="false" />
+    <Property Name="Time" Type="DateTime" Nullable="false" />
+    <NavigationProperty Name="Pool" Relationship="KenosisModel.PoolMsg" FromRole="Msg" ToRole="Pool" />
+    <Property Name="PoolId" Type="String" Nullable="false" />
   </EntityType>
-  <EntityContainer Name="KenosisEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="Msgs" EntityType="Self.Msg" />
-    <EntitySet Name="Pools" EntityType="Self.Pool" />
-    <EntitySet Name="Users" EntityType="Self.User" />
-    <AssociationSet Name="UserMsg" Association="KenosisModel.UserMsg">
-      <End Role="Msg" EntitySet="Msgs" />
-      <End Role="User" EntitySet="Users" />
-    </AssociationSet>
-    <AssociationSet Name="MsgPool" Association="KenosisModel.MsgPool">
-      <End Role="Msg" EntitySet="Msgs" />
-      <End Role="Pool" EntitySet="Pools" />
-    </AssociationSet>
-    <AssociationSet Name="UserPool" Association="KenosisModel.UserPool">
-      <End Role="User" EntitySet="Users" />
-      <End Role="Pool" EntitySet="Pools" />
-    </AssociationSet>
-  </EntityContainer>
-  <Association Name="UserMsg">
-    <End Type="KenosisModel.Msg" Role="Msg" Multiplicity="*" />
-    <End Type="KenosisModel.User" Role="User" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="User">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Msg">
-        <PropertyRef Name="UserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="MsgPool">
-    <End Type="KenosisModel.Msg" Role="Msg" Multiplicity="*" />
+  <Association Name="PoolMsg">
     <End Type="KenosisModel.Pool" Role="Pool" Multiplicity="1" />
+    <End Type="KenosisModel.Msg" Role="Msg" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Pool">
         <PropertyRef Name="Id" />
@@ -72,8 +59,5 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="UserPool">
-    <End Type="KenosisModel.User" Role="User" Multiplicity="*" />
-    <End Type="KenosisModel.Pool" Role="Pool" Multiplicity="*" />
-  </Association>
+  <ComplexType Name="UserList" />
 </Schema>

@@ -12,14 +12,8 @@ namespace KenosisBase.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Msg
+    public partial class Role
     {
         public string Id { get; set; }
-        public string Text { get; set; }
-        public string UserId { get; set; }
-        public System.DateTime Time { get; set; }
-        public string PoolId { get; set; }
-    
-        public virtual Pool Pool { get; set; }
     }
 }
